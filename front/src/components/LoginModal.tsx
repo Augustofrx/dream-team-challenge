@@ -1,5 +1,5 @@
 import React from "react";
-import { Formik, Field, Form, ErrorMessage } from "formik";
+import { Formik, Field, Form, ErrorMessage, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import Swal from "sweetalert2";
 import axios from "axios";
@@ -21,6 +21,7 @@ interface LoginModalProps {
 
 const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
   const router = useRouter();
+
   if (!isOpen) return null;
 
   return (
@@ -31,7 +32,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
           <Formik
             initialValues={{ email: "", password: "" }}
             validationSchema={validationSchema}
-            onSubmit={async (values, { setSubmitting }) => {
+            onSubmit={async (values, { setSubmitting }: FormikHelpers<any>) => {
               try {
                 const response = await axios.post(
                   `${API_BASE_URL}/auth/login`,
@@ -60,44 +61,54 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
               }
             }}
           >
-            <Form>
-              <div className="mb-4">
-                <label className="block text-sm font-medium">
-                  Correo Electrónico
-                </label>
-                <Field
-                  type="email"
-                  name="email"
-                  className="input input-bordered w-full"
-                />
-                <ErrorMessage
-                  name="email"
-                  component="div"
-                  className="text-red-500 text-sm"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block text-sm font-medium">Contraseña</label>
-                <Field
-                  type="password"
-                  name="password"
-                  className="input input-bordered w-full"
-                />
-                <ErrorMessage
-                  name="password"
-                  component="div"
-                  className="text-red-500 text-sm"
-                />
-              </div>
-              <div className="modal-action">
-                <button type="submit" className="btn btn-primary">
-                  Iniciar Sesión
-                </button>
-                <button type="button" onClick={onClose} className="btn">
-                  Cancelar
-                </button>
-              </div>
-            </Form>
+            {({ isSubmitting }) => (
+              <Form>
+                <div className="mb-4">
+                  <label className="block text-sm font-medium">
+                    Correo Electrónico
+                  </label>
+                  <Field
+                    disabled={isSubmitting}
+                    type="email"
+                    name="email"
+                    className="input input-bordered w-full"
+                  />
+                  <ErrorMessage
+                    name="email"
+                    component="div"
+                    className="text-red-500 text-sm"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-sm font-medium">
+                    Contraseña
+                  </label>
+                  <Field
+                    disabled={isSubmitting}
+                    type="password"
+                    name="password"
+                    className="input input-bordered w-full"
+                  />
+                  <ErrorMessage
+                    name="password"
+                    component="div"
+                    className="text-red-500 text-sm"
+                  />
+                </div>
+                <div className="modal-action">
+                  <button
+                    type="submit"
+                    className="btn btn-primary"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? "Iniciando sesión..." : "Iniciar Sesión"}
+                  </button>
+                  <button type="button" onClick={onClose} className="btn">
+                    Cancelar
+                  </button>
+                </div>
+              </Form>
+            )}
           </Formik>
         </div>
       </div>
