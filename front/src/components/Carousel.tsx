@@ -9,6 +9,8 @@ import { Player } from "../schemas";
 import axios from "axios";
 import Loader from "./Loader";
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
 interface Team {
   team_key: string;
   team_name: string;
@@ -88,9 +90,7 @@ const Carousel: React.FC<CarouselProps> = ({
   useEffect(() => {
     const fetchCountries = async () => {
       try {
-        const { data } = await axios.get(
-          `http://localhost:3001/api/teams/countries`
-        );
+        const { data } = await axios.get(`${API_BASE_URL}/teams/countries`);
         setCountries(data);
       } catch (error) {
         console.error("Error fetching countries:", error);
@@ -107,7 +107,7 @@ const Carousel: React.FC<CarouselProps> = ({
         try {
           setIsLoading(true);
           const response = await fetch(
-            `http://localhost:3001/api/teams/leagues-from-country?countryId=${selectedCountry}`
+            `${API_BASE_URL}/teams/leagues-from-country?countryId=${selectedCountry}`
           );
           const data = await response.json();
           setLeagues(data);
@@ -127,7 +127,7 @@ const Carousel: React.FC<CarouselProps> = ({
         try {
           setIsLoading(true);
           const response = await fetch(
-            `http://localhost:3001/api/teams/teams-from-league?leagueId=${selectedLeague}`
+            `${API_BASE_URL}/teams/teams-from-league?leagueId=${selectedLeague}`
           );
           const data = await response.json();
           setTeams(data);
