@@ -24,5 +24,5 @@ app.get("/", (req, res) => {
 routerApi(app);
 
 app.listen(port, () => {
-  console.log(`Backend is running on port ${port} \nhttp://localhost:${port}`);
+  console.log(`Backend is running`);
 });
