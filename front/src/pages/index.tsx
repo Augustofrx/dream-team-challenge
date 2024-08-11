@@ -33,11 +33,6 @@ export default function Home() {
             DREAM TEAM
           </p>
         </div>
-        <div>
-          <span className="font-anton text-2xl text-green-200 hover:text-green-300 underline underline-offset-auto cursor-pointer mx-2 border-none text-center">
-            ¿Qué es Dream Team?
-          </span>
-        </div>
       </div>
       <section className="w-full h-full flex flex-col justify-center items-center">
         <video
