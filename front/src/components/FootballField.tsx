@@ -46,7 +46,7 @@ const FootballField = () => {
   } | null>(null);
   const [newTeamName, setNewTeamName] = useState<string>("");
   const [creatingTeam, setCreatingTeam] = useState<boolean>(false);
-  const [isValid, setIsValid] = useState<boolean>(false);
+  // const [isValid, setIsValid] = useState<boolean>(false);
   const [token, setToken] = useState<any>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -272,13 +272,7 @@ const FootballField = () => {
   };
 
   const validateAndAddPlayer = async (position: Position, role: PlayerRole) => {
-    if (selectedTeam === null) {
-      Swal.fire({
-        text: `No se ha seleccionado ningún equipo.`,
-        icon: "error",
-        confirmButtonText: "Entendido",
-      });
-      setIsValid(false);
+    if (!selectedTeam) {
       return false;
     }
 
@@ -288,7 +282,6 @@ const FootballField = () => {
         icon: "info",
         confirmButtonText: "Entendido",
       });
-      setIsValid(false);
       return false;
     }
 
@@ -298,7 +291,16 @@ const FootballField = () => {
         icon: "warning",
         confirmButtonText: "Entendido",
       });
-      setIsValid(false);
+      return false;
+    }
+    if (validateRoleCount(players, selectedTeam, role)) {
+      Swal.fire({
+        text: `El equipo ${getTeamName(selectedTeam)} ya tiene ${
+          roleMapper[role]
+        }.`,
+        icon: "warning",
+        confirmButtonText: "Entendido",
+      });
       return false;
     }
 
@@ -308,7 +310,6 @@ const FootballField = () => {
         icon: "warning",
         confirmButtonText: "Entendido",
       });
-      setIsValid(false);
       return false;
     }
 
@@ -318,19 +319,6 @@ const FootballField = () => {
         icon: "warning",
         confirmButtonText: "Entendido",
       });
-      setIsValid(false);
-      return false;
-    }
-
-    if (validateRoleCount(players, selectedTeam, role)) {
-      Swal.fire({
-        text: `El equipo ${getTeamName(selectedTeam)} ya tiene ${
-          roleMapper[role]
-        }.`,
-        icon: "warning",
-        confirmButtonText: "Entendido",
-      });
-      setIsValid(false);
       return false;
     }
 
@@ -349,8 +337,7 @@ const FootballField = () => {
       return false;
     }
 
-    setIsValid(true);
-    if (selectedPlayer && teams && isValid && token) {
+    if (selectedPlayer && teams && token) {
       const selectedTeamData = teams.find(
         (team) => team.teamSide === selectedTeam
       );
@@ -374,11 +361,17 @@ const FootballField = () => {
         return false;
       }
     }
-
-    return false;
   };
 
   const handlePositionClick = async (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!selectedTeam) {
+      Swal.fire({
+        text: `No se ha seleccionado ningún equipo.`,
+        icon: "error",
+        confirmButtonText: "Entendido",
+      });
+      return false;
+    }
     if (selectedTeam && selectedPlayer) {
       const rect = e.currentTarget.getBoundingClientRect();
       const x = ((e.clientX - rect.left) / rect.width) * 100;
@@ -421,6 +414,7 @@ const FootballField = () => {
 
       if (role) {
         const positionValid = await validateAndAddPlayer({ x, y }, role);
+        console.log(positionValid);
         if (positionValid) {
           setSelectedPlayer(null);
         }
