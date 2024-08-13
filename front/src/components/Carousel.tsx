@@ -180,7 +180,7 @@ const Carousel: React.FC<CarouselProps> = ({
                   alt={country.country_name}
                   className="max-h-[50px] md:min-h-[90px]  md:w-full object-contain"
                 />
-                <span className="text-center mt-2 font-semibold text-xs md:text-md font-anton">
+                <span className="text-center mt-2 font-semibold text-xs md:text-md font-anton text-black">
                   {country.country_name}
                 </span>
               </div>
@@ -227,7 +227,7 @@ const Carousel: React.FC<CarouselProps> = ({
                       alt={league.league_name}
                       className="max-h-[50px] md:min-h-[90px]  md:w-full object-contain"
                     />
-                    <span className="text-center mt-2 font-semibold  font-anton text-xs md:text-md">
+                    <span className="text-center mt-2 font-semibold  font-anton text-xs md:text-md text-black">
                       {league.league_name}
                     </span>
                   </div>
@@ -275,7 +275,7 @@ const Carousel: React.FC<CarouselProps> = ({
                     alt={team.team_name}
                     className="max-h-[50px] md:min-h-[90px]  md:w-full object-contain"
                   />
-                  <span className="text-center mt-2 font-semibold text-xs md:text-md font-anton">
+                  <span className="text-center mt-2 font-semibold text-xs md:text-md font-anton text-black">
                     {team.team_name}
                   </span>
                 </div>
@@ -327,7 +327,7 @@ const Carousel: React.FC<CarouselProps> = ({
                     alt={player.player_name}
                     className="max-h-[50px] md:min-h-[90px]  md:w-full h-full object-contain "
                   />
-                  <span className="text-center font-anton md:text-md text-xs font-semibold mt-2">
+                  <span className="text-center font-anton md:text-md text-xs font-semibold mt-2 text-black">
                     {player.player_name} <br />{" "}
                     {positionMapper[player.player_type]}
                   </span>
